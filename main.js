@@ -34,9 +34,9 @@ L.control.scale({
 async function showForecast(url, latlng) {
     let response = await fetch(url);
     let jsondata = await response.json();
-    console.log(jsondata, latlng);
+    //console.log(jsondata, latlng);
     let current = jsondata.properties.timeseries[0].data.instant.details;
-    console.log(current);
+    //console.log(current);
     let timeseries = jsondata.properties.timeseries;
     let timestamp = new Date(jsondata.properties.meta.updated_at).toLocaleString();
     let markup = `
@@ -52,11 +52,11 @@ async function showForecast(url, latlng) {
     `;
     // Wettersymbole
     for (let i=0; i<=24; i+=3){
-        console.log(timeseries[i]);
+        //console.log(timeseries[i]);
         let icon = timeseries[i].data.next_1_hours.summary.symbol_code;
         let image = `icons/${icon}.svg`;
         markup += `<img src="${image}" style="width:32px;" title="${timeseries[i].time.toLocaleString()}">`
-        console.log(icon);
+        //console.log(icon);
     }
 
     L.popup().setLatLng(latlng).setContent(markup).openOn(map);

@@ -51,7 +51,7 @@ async function showForecast(url, latlng) {
     </table>
     `;
     // Wettersymbole
-    for (let i=0; i<=24; i+=3){
+    for (let i = 0; i <= 24; i += 3) {
         //console.log(timeseries[i]);
         let icon = timeseries[i].data.next_1_hours.summary.symbol_code;
         let image = `icons/${icon}.svg`;
@@ -72,4 +72,28 @@ map.on("click", function (evt) {
 //klick auf Innsbruck simulieren
 map.fireEvent("click", {
     latlng: L.latLng(ibk.lat, ibk.lng)
-})
+});
+
+//Winddaten laden
+//https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json
+async function loadWind(url) {
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    //console.log(jsondata);
+
+    L.velocityLayer({
+        displayValues: true,
+        lineWidth: 3,
+        displayOptions: {
+            velocityType: "",
+            position: "bottomright",
+            emptyString: "keine Daten vorhanden",
+            speedUnit: "k/h",
+            directionString: "Windrichtung",
+            speedString: "Geschwindigkeit",
+        },
+        data: jsondata,
+    }).addTo(map);
+}
+loadWind("https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json");
+

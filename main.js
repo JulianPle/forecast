@@ -23,6 +23,7 @@ let layerControl = L.control.layers({
     "Esri WorldImagery": L.tileLayer.provider("Esri.WorldImagery").addTo(map)
 }, {
     "Wettervorhersage MET Norway": themaLayer.forecast.addTo(map)
+
 }).addTo(map);
 
 // Maßstab
@@ -59,7 +60,7 @@ async function showForecast(url, latlng) {
         //console.log(icon);
     }
 
-    L.popup().setLatLng(latlng).setContent(markup).openOn(map);
+    L.popup().setLatLng(latlng).setContent(markup).openOn(themaLayer.forecast);
 
 }
 // auf Kartenklick reagieren 

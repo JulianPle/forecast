@@ -37,6 +37,21 @@ async function showForecast(url, latlng) {
     console.log(jsondata, latlng);
     let current = jsondata.properties.timeseries[0].data.instant.details;
     console.log(current);
+    let timestamp = new Date(jsondata.properties.meta.updated_at).toLocaleString();
+    let markup = `
+    <h4>Wetter für ${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)} ${timestamp}</h4>
+    <table>
+        <tr><td>Luftdruck (hPa)</td><td>${current.air_pressure_at_sea_level}</td></tr>
+        <tr><td>Lufttemperatur (°C)</td><td>${current.air_temperature}</td></tr>
+        <tr><td>Wolkenbedekcung (%)</td><td>${current.cloud_area_fraction}</td></tr>
+        <tr><td>Feuchte (%)</td><td>${current.relative_humidity}</td></tr>
+        <tr><td>Windrichtung (Grad)</td><td>${current.wind_from_direction}</td></tr>
+        <tr><td>Windgeschwindigkeit (km/h)</td><td>${current.wind_speed}</td></tr>
+    </table>
+    
+    `;
+    L.popup().setLatLng(latlng).setContent(markup).openOn(map);
+
 }
 // auf Kartenklick reagieren 
 map.on("click", function(evt){
